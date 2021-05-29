@@ -3,51 +3,17 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import datetime
+from discord.ext import commands
 
 with open('token.txt', 'r') as file: #gets token from file that is not on github, but is on host server
     token = file.readline()
-
-
-
-
-def split_by_char(string): #this function splits a string up into a list of its elements. It will be deleted a little later after redesigning its
-  charList = []            #only use in the system
-  for char in string:
-    charList.append(char)
-  return charList
-
-
-def createPollEmbed(question): #this is a function to turn info from get_build into an embed that discord outputs
-    embedVar = discord.Embed(color=0x7fffd4)
-    embedVar.set_thumbnail(url="https://i.gyazo.com/881c313c685b52dd21ac8434dc87ad07.png")
-    #embedVar.set_author(name=prettyGodName, url="https://smite.guru/builds/{}".format(godName), icon_url="https://static.smite.guru/i/champions/icons/{}.jpg".format(godName))
-    embedVar.add_field(name=question, value="1:\n2:\n3:\n", inline=True)
-    return embedVar
-
-
-def mathStuff(equation):
-    finalValue = 0
-    num1 = float(equation[0])
-    num2 = float(equation[2])
-    operator = equation[1]
-
-    if operator == "+":
-        finalValue = num1 + num2
-    if operator == "-":
-        finalValue = num1 - num2
-    if operator == "*" or operator == "x":
-        finalValue = num1 * num2
-    if operator == "/":
-        finalValue = num1 / num2
-
-    return finalValue
-
 
 if __name__ == '__main__':
     print("hello world")
 
     intents = discord.Intents.all()
-    client = discord.Client(intents=intents)
+    client = commands.Bot(command_prefix="$", intents = intents)
+    # client = discord.Client(intents=intents)
 
     @client.event
     async def on_connect():
@@ -70,6 +36,25 @@ if __name__ == '__main__':
         if message.content.startswith("$test"):
             guild = message.guild
             await message.channel.send(guild.name)
+
+    # @client.command()
+    # async def mute(ctx):
+    #     if ctx.message.content == "$mute help":
+    #         await ctx.send("To mute someone, type $mute followed directly by a user's ID")
+    #         return
+    #
+    #     guild = ctx.message.guild
+    #     timeoutRole = guild.get_role(839236832398671913)
+    #
+    #     try:
+    #         message_content = ctx.message.content.split()
+    #         user_id = message_content[1]
+    #         user = await ctx.message.guild.fetch_member(user_id)
+    #     except:
+    #         await ctx.send("To mute someone, type $mute followed directly by a user's ID")
+    #         return
+    #
+    #     await user.add_roles(timeoutRole)
 
         if message.content.startswith("$mute"):
             guild = message.guild
